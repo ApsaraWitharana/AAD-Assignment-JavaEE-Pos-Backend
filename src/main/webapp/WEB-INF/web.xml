@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
+
+<!--    <resource-ref>-->
+<!--        <description>DB Connection</description>-->
+<!--        <res-ref-name>jdbc/pos_system</res-ref-name>-->
+<!--        <res-type>javax.sql.DataSource</res-type>-->
+<!--        <res-auth>Container</res-auth>-->
+<!--    </resource-ref>-->
+
+    <context-param>
+        <param-name>db-class</param-name>
+        <param-value>com.mysql.jdbc.Driver</param-value>
+    </context-param>
+    <context-param>
+        <param-name>dburl</param-name>
+        <param-value>jdbc:mysql://localhost:3306/pos_system</param-value>
+    </context-param>
+    <context-param>
+        <param-name>db-username</param-name>
+        <param-value>root</param-value>
+    </context-param>
+    <context-param>
+        <param-name>db-password</param-name>
+        <param-value>ijse@2001</param-value>
+    </context-param>
+    <context-param>
+        <param-name>myparam</param-name>
+        <param-value>Hello my param</param-value>
+    </context-param>
+    <context-param>
+        <param-name>origin</param-name>
+        <param-value>http://127.0.0.1:5503</param-value>
+    </context-param>
+
+</web-app>
