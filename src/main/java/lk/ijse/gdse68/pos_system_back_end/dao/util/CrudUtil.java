@@ -7,7 +7,7 @@ import java.util.Objects;
 
 public class CrudUtil {
     public static <T> T execute (Connection connection, String sql, Object... args) throws SQLException{
-        PreparedStatement pstm = connection.prepareStatement(sql);
+        PreparedStatement pstm = connection.prepareStatement(sql); // DbConnection class is that not using ,using to web app web-inf is this connected to db connection
 
         for (int i=0; i<args.length; i++){
             pstm.setObject((i+1),args[i]);
