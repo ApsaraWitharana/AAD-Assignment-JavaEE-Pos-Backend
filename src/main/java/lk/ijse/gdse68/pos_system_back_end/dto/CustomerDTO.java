@@ -7,9 +7,13 @@ import lombok.*;
 @Setter
 @Getter
 @Data
+@ToString
 public class CustomerDTO {
     private String id;
     private String name;
     private String address;
-    private String contact;
+    private double salary;
+
+
+
 }
