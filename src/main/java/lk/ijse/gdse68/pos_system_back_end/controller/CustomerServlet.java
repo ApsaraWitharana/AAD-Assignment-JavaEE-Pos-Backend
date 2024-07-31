@@ -13,6 +13,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lk.ijse.gdse68.pos_system_back_end.bo.custom.CustomerBO;
 import lk.ijse.gdse68.pos_system_back_end.bo.custom.impl.CustomerBOImpl;
+import lk.ijse.gdse68.pos_system_back_end.dao.custom.CustomerDAO;
+import lk.ijse.gdse68.pos_system_back_end.dao.custom.CustomerDAOImpl;
 import lk.ijse.gdse68.pos_system_back_end.dto.CustomerDTO;
 import lombok.SneakyThrows;
 
@@ -25,7 +27,7 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
-@WebServlet(name = "customer",urlPatterns = "/customer")
+@WebServlet(name = "customer",urlPatterns = "/customer",loadOnStartup = 3)
 public class CustomerServlet extends HttpServlet {
 
     CustomerBO customerBO = (CustomerBO) new CustomerBOImpl();
