@@ -24,7 +24,22 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public ArrayList<Customer> getAll(Connection connection) throws SQLException {
-        return null;
+        String sql = "SELECT * FROM customer";
+        ArrayList<Customer> customerList = new ArrayList<Customer>();
+        ResultSet rst = CrudUtil.execute(connection, sql);
+
+        while(rst.next()){
+            Customer customer = new Customer(
+                    rst.getString(1),
+                    rst.getString(2),
+                    rst.getString(3),
+                    rst.getDouble(4)
+
+            );
+
+            customerList.add(customer);
+        }
+        return customerList;
     }
 
     @Override
