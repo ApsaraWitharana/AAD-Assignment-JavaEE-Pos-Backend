@@ -18,6 +18,7 @@ import lk.ijse.gdse68.pos_system_back_end.dao.custom.CustomerDAOImpl;
 import lk.ijse.gdse68.pos_system_back_end.dto.CustomerDTO;
 import lombok.SneakyThrows;
 
+import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
@@ -37,10 +38,13 @@ public class CustomerServlet extends HttpServlet {
     public void init() throws ServletException {
         try {
             var ctx = new InitialContext(); //get connection to connection pool
-            DataSource pool = (DataSource) ctx.lookup("java/comp/env/jdbc/pos_system"); // cast and create datasource and get lookup set url path
-            this.connectionPool = (DataSource) pool.getConnection();
-        } catch (SQLException | NamingException e) {
-            e.printStackTrace();
+            Context envContext = (Context) ctx.lookup("java:/comp/env");
+            DataSource dataSource = (DataSource) envContext.lookup("jdbc/pos_system");
+//            DataSource pool = (DataSource) ctx.lookup("java/comp/env/jdbc/pos_system"); // cast and create datasource and get lookup set url path
+            this.connectionPool =  dataSource;
+        } catch ( NamingException e) {
+            throw new ServletException("Cannot find JNDI resource", e);
+//            e.printStackTrace();
         }
     }
 
@@ -60,7 +64,7 @@ public class CustomerServlet extends HttpServlet {
             } else if (customerDTO.getName() == null || !customerDTO.getName().matches("^[A-Za-z ]{4,}$")) {
                 resp.getWriter().write("Name is empty or invalid!!");
                 return;
-            } else if (customerDTO.getAddress() == null || !customerDTO.getAddress().matches("^[A-Za-z0-9., -]{8,}$")) {
+            } else if (customerDTO.getAddress() == null || !customerDTO.getAddress().matches("^[A-Za-z0-9., -]{5,}$")) {
                 resp.getWriter().write("Address is empty or invalid!!");
                 return;
             } else if (customerDTO.getSalary() <= 0) {
