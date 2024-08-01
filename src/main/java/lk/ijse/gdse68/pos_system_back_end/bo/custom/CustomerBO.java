@@ -12,7 +12,9 @@ public interface CustomerBO extends SuperBO {
 
     ArrayList<CustomerDTO> getAllCustomers(Connection connection) throws SQLException;
 
-    CustomerDTO getCustomerById(Connection connection, String id);
+    CustomerDTO getCustomerById(Connection connection, String id) throws SQLException;
 
     boolean updateCustomer(Connection connection, CustomerDTO customerDTO) throws SQLException;
+
+    boolean deleteCustomer(Connection connection, String id) throws SQLException;
 }

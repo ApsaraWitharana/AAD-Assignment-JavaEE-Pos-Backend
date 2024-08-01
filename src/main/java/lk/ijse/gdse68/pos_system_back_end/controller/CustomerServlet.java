@@ -117,9 +117,21 @@ public class CustomerServlet extends HttpServlet {
     }
 
 
+    @SneakyThrows
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doDelete(req, resp);
+        String id = req.getParameter("id");
+        try (Connection connection = connectionPool.getConnection()){
+            boolean isDeleted = customerBO.deleteCustomer(connection,id);
+            if (isDeleted){
+                resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
+            }else{
+                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Failed to delete customer!");
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @SneakyThrows
