@@ -1,5 +1,6 @@
-package lk.ijse.gdse68.pos_system_back_end.dao.custom;
+package lk.ijse.gdse68.pos_system_back_end.dao.custom.impl;
 
+import lk.ijse.gdse68.pos_system_back_end.dao.custom.CustomerDAO;
 import lk.ijse.gdse68.pos_system_back_end.dao.util.CrudUtil;
 import lk.ijse.gdse68.pos_system_back_end.entity.Customer;
 
@@ -7,7 +8,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class CustomerDAOImpl implements CustomerDAO{
+public class CustomerDAOImpl implements CustomerDAO {
     @Override
     public boolean save(Connection connection, Customer entity) throws SQLException {
         String sql = "INSERT INTO customer (id,name,address,salary) VALUES (?,?,?,?)";
@@ -16,7 +17,8 @@ public class CustomerDAOImpl implements CustomerDAO{
 
     @Override
     public boolean update(Connection connection, Customer entity) throws SQLException {
-        return false;
+        String sql = "UPDATE customer SET name = ?, address = ?,salary = ? WHERE id = ?";
+        return CrudUtil.execute(connection,sql,entity.getName(),entity.getAddress(),entity.getSalary(),entity.getId());
     }
 
     @Override

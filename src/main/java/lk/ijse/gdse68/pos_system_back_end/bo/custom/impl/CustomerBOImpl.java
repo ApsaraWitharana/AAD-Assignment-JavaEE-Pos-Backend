@@ -2,7 +2,7 @@ package lk.ijse.gdse68.pos_system_back_end.bo.custom.impl;
 
 import lk.ijse.gdse68.pos_system_back_end.bo.custom.CustomerBO;
 import lk.ijse.gdse68.pos_system_back_end.dao.custom.CustomerDAO;
-import lk.ijse.gdse68.pos_system_back_end.dao.custom.CustomerDAOImpl;
+import lk.ijse.gdse68.pos_system_back_end.dao.custom.impl.CustomerDAOImpl;
 import lk.ijse.gdse68.pos_system_back_end.dto.CustomerDTO;
 import lk.ijse.gdse68.pos_system_back_end.entity.Customer;
 
@@ -37,5 +37,11 @@ public class CustomerBOImpl implements CustomerBO {
     @Override
     public CustomerDTO getCustomerById(Connection connection, String id) {
         return null;
+    }
+
+    @Override
+    public boolean updateCustomer(Connection connection, CustomerDTO dto) throws SQLException {
+        return customerDAO.update(connection,new Customer(dto.getId(),dto.getName(),dto.getAddress(),dto.getSalary()));
+
     }
 }
