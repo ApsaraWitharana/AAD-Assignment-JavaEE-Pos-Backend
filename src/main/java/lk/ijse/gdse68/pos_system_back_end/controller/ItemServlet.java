@@ -54,11 +54,11 @@ public class ItemServlet extends HttpServlet {
         if (function != null) {
             if (function.equals("someValue")) {
                 try (Connection connection = connectionPool.getConnection()) {
-                    ArrayList<ItemDTO> customerDTOList = itemBO.getAllItems(connection);
-                    System.out.println(customerDTOList);
+                    ArrayList<ItemDTO> itemDTOList = itemBO.getAllItems(connection);
+                    System.out.println(itemDTOList);
 
                     Jsonb jsonb = JsonbBuilder.create();
-                    String json = jsonb.toJson(customerDTOList);
+                    String json = jsonb.toJson(itemDTOList);
                     resp.getWriter().write(json);
 
                 } catch (JsonbException | IOException | SQLException e) {

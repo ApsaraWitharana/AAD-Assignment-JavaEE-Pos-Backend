@@ -50,7 +50,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public Customer findBy(Connection connection, String id) throws SQLException {
-        String sql = "SELECT * FROM customer WHERE id=?";
+        String sql = "SELECT * FROM customer WHERE id = ?";
         Customer customer =new Customer();
         ResultSet rst = CrudUtil.execute(connection,sql,id);
 

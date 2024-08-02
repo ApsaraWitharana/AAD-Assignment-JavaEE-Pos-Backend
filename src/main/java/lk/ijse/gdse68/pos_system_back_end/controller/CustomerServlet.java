@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lk.ijse.gdse68.pos_system_back_end.bo.custom.CustomerBO;
 import lk.ijse.gdse68.pos_system_back_end.bo.custom.impl.CustomerBOImpl;
 import lk.ijse.gdse68.pos_system_back_end.dto.CustomerDTO;
+import lk.ijse.gdse68.pos_system_back_end.dto.ItemDTO;
 import lombok.SneakyThrows;
 
 import javax.naming.Context;
@@ -80,39 +81,42 @@ public class CustomerServlet extends HttpServlet {
         }
     }
 
+    @SneakyThrows
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String function = req.getParameter("function");
 
-        if (function.equals("getAll")) {
-            try (Connection connection = connectionPool.getConnection()) {
-                ArrayList<CustomerDTO> customerDTOList = customerBO.getAllCustomers(connection);
+        if (function != null) {
+            if (function.equals("someValue")) {
+                try (Connection connection = connectionPool.getConnection()) {
+                    ArrayList<CustomerDTO> customerDTOList = customerBO.getAllCustomers(connection);
+                    System.out.println(customerDTOList);
 
-                Jsonb jsonb = JsonbBuilder.create();
-                String json = jsonb.toJson(customerDTOList);
-                resp.getWriter().write(json);
-            } catch (JsonbException e) {
-                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
-            } catch (IOException e) {
-                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
-            } catch (SQLException e) {
-                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
-            }
-        } else if (function.equals("getById")) {
-            String id = req.getParameter("id");
-            try (Connection connection = connectionPool.getConnection()) {
-                CustomerDTO customerDTO = customerBO.getCustomerById(connection, id);
+                    Jsonb jsonb = JsonbBuilder.create();
+                    String json = jsonb.toJson(customerDTOList);
+                    resp.getWriter().write(json);
 
-                Jsonb jsonb = JsonbBuilder.create();
-                String json = jsonb.toJson(customerDTO);
-                resp.getWriter().write(json);
-            } catch (JsonbException e) {
-                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
-            } catch (IOException e) {
-                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
-            } catch (SQLException e) {
-                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+                } catch (JsonbException | IOException | SQLException e) {
+                    resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+                }
+            } else if (function.equals("getById")) {
+                String id = req.getParameter("id");
+
+                try (Connection connection = connectionPool.getConnection()) {
+                    CustomerDTO customerDTO = customerBO.getCustomerById(connection, id);
+                    System.out.println(customerDTO);
+
+                    Jsonb jsonb = JsonbBuilder.create();
+                    String json = jsonb.toJson(customerDTO);
+                    resp.getWriter().write(json);
+                } catch (JsonbException | IOException | SQLException e) {
+                    resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+                }
+            } else {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid function parameter");
             }
+        } else {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Function parameter is missing");
         }
     }
 
