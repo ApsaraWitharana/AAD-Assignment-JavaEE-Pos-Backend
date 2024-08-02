@@ -5,6 +5,7 @@ import lk.ijse.gdse68.pos_system_back_end.dao.util.CrudUtil;
 import lk.ijse.gdse68.pos_system_back_end.entity.Item;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -22,8 +23,24 @@ public class ItemDAOImpl implements ItemDAO {
 
     @Override
     public ArrayList<Item> getAll(Connection connection) throws SQLException {
-        return null;
+        String sql = "SELECT * FROM item";
+        ArrayList<Item> itemList = new ArrayList<Item>();
+        ResultSet rst = CrudUtil.execute(connection,sql);
+
+        while (rst.next()){
+            Item item = new Item(
+                    rst.getString(1),
+                    rst.getString(2),
+                    rst.getBigDecimal(3),
+                    rst.getInt(4)
+
+            );
+
+            itemList.add(item);
+        }
+        return itemList;
     }
+
 
     @Override
     public boolean delete(Connection connection, String id) throws SQLException {
@@ -32,6 +49,16 @@ public class ItemDAOImpl implements ItemDAO {
 
     @Override
     public Item findBy(Connection connection, String id) throws SQLException {
-        return null;
+        String sql = "SELECT * FROM item WHERE code = ?";
+        Item item = new Item();
+        ResultSet rst = CrudUtil.execute(connection,sql,id);
+
+        if (rst.next()){
+            item.setCode(rst.getString(1));
+            item.setName(rst.getString(2));
+            item.setPrice(rst.getBigDecimal(3));
+            item.setQty(rst.getInt(4));
+        }
+        return item;
     }
 }

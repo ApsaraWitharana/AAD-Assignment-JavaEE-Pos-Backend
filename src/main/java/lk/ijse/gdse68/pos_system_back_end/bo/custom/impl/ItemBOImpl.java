@@ -25,12 +25,32 @@ public class ItemBOImpl implements ItemBO {
 
     @Override
     public ArrayList<ItemDTO> getAllItems(Connection connection) throws SQLException {
-        return null;
+        ArrayList<Item> itemList = itemDAO.getAll(connection);
+
+        ArrayList<ItemDTO> itemDTOList = new ArrayList<ItemDTO>();
+
+        for(Item item : itemList){
+            ItemDTO dto = new ItemDTO(
+                    item.getCode(),
+                    item.getName(),
+                    item.getPrice(),
+                    item.getQty()
+            );
+
+            itemDTOList.add(dto);
+        }
+        return itemDTOList;
     }
 
     @Override
     public ItemDTO getItemByCode(Connection connection, String id) throws SQLException {
-        return null;
+        Item item = itemDAO.findBy(connection,id);
+        return new ItemDTO(
+                item.getCode(),
+                item.getName(),
+                item.getPrice(),
+                item.getQty()
+        );
     }
 
     @Override

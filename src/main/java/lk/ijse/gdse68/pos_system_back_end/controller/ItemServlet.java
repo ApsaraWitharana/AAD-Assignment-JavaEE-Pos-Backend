@@ -2,6 +2,7 @@ package lk.ijse.gdse68.pos_system_back_end.controller;
 
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
+import jakarta.json.bind.JsonbException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,6 +12,7 @@ import lk.ijse.gdse68.pos_system_back_end.bo.custom.ItemBO;
 import lk.ijse.gdse68.pos_system_back_end.bo.custom.impl.ItemBOImpl;
 import lk.ijse.gdse68.pos_system_back_end.dto.CustomerDTO;
 import lk.ijse.gdse68.pos_system_back_end.dto.ItemDTO;
+import lombok.SneakyThrows;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -20,6 +22,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
 
 @WebServlet(name = "item",urlPatterns = "/item")
 public class ItemServlet extends HttpServlet {
@@ -42,9 +45,44 @@ public class ItemServlet extends HttpServlet {
         }
     }
 
+    @SneakyThrows
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
+        String function = req.getParameter("function");
+
+        if (function.equals("getAll")){
+            try (Connection connection = connectionPool.getConnection()){
+                ArrayList<ItemDTO> customerDTOList = itemBO.getAllItems(connection);
+
+                Jsonb jsonb = JsonbBuilder.create();
+                String json = jsonb.toJson(customerDTOList);
+                resp.getWriter().write(json);
+
+            }catch (JsonbException e){
+                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,e.getMessage());
+            }catch (IOException e){
+                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,e.getMessage());
+            }catch (SQLException e){
+                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,e.getMessage());
+            }
+
+        }else if (function.equals("getById")){
+            String id = req.getParameter("id");
+
+            try (Connection connection = connectionPool.getConnection()){
+                ItemDTO itemDTO = itemBO.getItemByCode(connection,id);
+
+                Jsonb jsonb = JsonbBuilder.create();
+                String json = jsonb.toJson(itemDTO);
+                resp.getWriter().write(json);
+            }catch (JsonbException e){
+                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+            }catch (IOException e){
+                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,e.getMessage());
+            }catch (SQLException e){
+                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,e.getMessage());
+            }
+        }
     }
 
     @Override
