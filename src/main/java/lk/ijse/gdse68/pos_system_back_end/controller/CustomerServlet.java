@@ -34,7 +34,7 @@ public class CustomerServlet extends HttpServlet {
         try {
             var ctx = new InitialContext(); //get connection to connection pool
             Context envContext = (Context) ctx.lookup("java:/comp/env");
-            DataSource dataSource = (DataSource) envContext.lookup("jdbc/pos_system");
+            DataSource dataSource = (DataSource) envContext.lookup("jdbc/pos_system_new");
 //            DataSource pool = (DataSource) ctx.lookup("java/comp/env/jdbc/pos_system"); // cast and create datasource and get lookup set url path
             this.connectionPool = dataSource;
         } catch (NamingException e) {
