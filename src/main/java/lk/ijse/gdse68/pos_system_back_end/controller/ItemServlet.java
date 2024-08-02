@@ -45,43 +45,43 @@ public class ItemServlet extends HttpServlet {
         }
     }
 
+
     @SneakyThrows
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String function = req.getParameter("function");
 
-        if (function.equals("getAll")){
-            try (Connection connection = connectionPool.getConnection()){
-                ArrayList<ItemDTO> customerDTOList = itemBO.getAllItems(connection);
+        if (function != null) {
+            if (function.equals("someValue")) {
+                try (Connection connection = connectionPool.getConnection()) {
+                    ArrayList<ItemDTO> customerDTOList = itemBO.getAllItems(connection);
+                    System.out.println(customerDTOList);
 
-                Jsonb jsonb = JsonbBuilder.create();
-                String json = jsonb.toJson(customerDTOList);
-                resp.getWriter().write(json);
+                    Jsonb jsonb = JsonbBuilder.create();
+                    String json = jsonb.toJson(customerDTOList);
+                    resp.getWriter().write(json);
 
-            }catch (JsonbException e){
-                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,e.getMessage());
-            }catch (IOException e){
-                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,e.getMessage());
-            }catch (SQLException e){
-                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,e.getMessage());
+                } catch (JsonbException | IOException | SQLException e) {
+                    resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+                }
+            } else if (function.equals("getById")) {
+                String code = req.getParameter("code");
+
+                try (Connection connection = connectionPool.getConnection()) {
+                    ItemDTO itemDTO = itemBO.getItemByCode(connection, code);
+                    System.out.println(itemDTO);
+
+                    Jsonb jsonb = JsonbBuilder.create();
+                    String json = jsonb.toJson(itemDTO);
+                    resp.getWriter().write(json);
+                } catch (JsonbException | IOException | SQLException e) {
+                    resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+                }
+            } else {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid function parameter");
             }
-
-        }else if (function.equals("getById")){
-            String id = req.getParameter("id");
-
-            try (Connection connection = connectionPool.getConnection()){
-                ItemDTO itemDTO = itemBO.getItemByCode(connection,id);
-
-                Jsonb jsonb = JsonbBuilder.create();
-                String json = jsonb.toJson(itemDTO);
-                resp.getWriter().write(json);
-            }catch (JsonbException e){
-                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
-            }catch (IOException e){
-                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,e.getMessage());
-            }catch (SQLException e){
-                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,e.getMessage());
-            }
+        } else {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Function parameter is missing");
         }
     }
 

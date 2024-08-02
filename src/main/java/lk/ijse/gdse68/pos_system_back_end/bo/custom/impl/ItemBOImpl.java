@@ -43,8 +43,8 @@ public class ItemBOImpl implements ItemBO {
     }
 
     @Override
-    public ItemDTO getItemByCode(Connection connection, String id) throws SQLException {
-        Item item = itemDAO.findBy(connection,id);
+    public ItemDTO getItemByCode(Connection connection, String code) throws SQLException {
+        Item item = itemDAO.findBy(connection,code);
         return new ItemDTO(
                 item.getCode(),
                 item.getName(),

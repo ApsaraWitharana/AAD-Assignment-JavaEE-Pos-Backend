@@ -48,10 +48,10 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
-    public Item findBy(Connection connection, String id) throws SQLException {
+    public Item findBy(Connection connection, String code) throws SQLException {
         String sql = "SELECT * FROM item WHERE code = ?";
         Item item = new Item();
-        ResultSet rst = CrudUtil.execute(connection,sql,id);
+        ResultSet rst = CrudUtil.execute(connection,sql,code);
 
         if (rst.next()){
             item.setCode(rst.getString(1));
