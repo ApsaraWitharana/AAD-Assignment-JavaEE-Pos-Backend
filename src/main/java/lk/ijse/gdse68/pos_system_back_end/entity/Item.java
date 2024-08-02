@@ -14,7 +14,6 @@ public class Item {
     private String code;
     private String name;
     private BigDecimal price;
-    private String status;
     private int qty;
 
 }

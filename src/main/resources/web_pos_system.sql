@@ -17,7 +17,6 @@ create table item(
                      code VARCHAR(15) PRIMARY KEY,
                      name VARCHAR(255) NOT NULL,
                      price DECIMAL(10,2) NOT NULL,
-                     status VARCHAR(255) NOT NULL,
                      qty INT NOT NULL
 );
 
