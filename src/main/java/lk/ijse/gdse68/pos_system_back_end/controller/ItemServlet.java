@@ -111,6 +111,8 @@ public class ItemServlet extends HttpServlet {
             boolean isSaved = itemBO.saveItem(connection, itemDTO);
             if (isSaved) {
                 resp.setStatus(HttpServletResponse.SC_CREATED);
+                resp.getWriter().write("Save Item Successfully");
+
             } else {
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "failed to add item");
             }
@@ -145,7 +147,8 @@ public class ItemServlet extends HttpServlet {
 
             boolean isUpdated = itemBO.updateItem(connection, itemDTO);
             if(isUpdated){
-                resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
+                resp.setStatus(HttpServletResponse.SC_CREATED);
+                resp.getWriter().write("Update Item Successfully");
             }else{
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "failed to update item details!");
             }
@@ -166,7 +169,9 @@ public class ItemServlet extends HttpServlet {
             boolean isDeleted = itemBO.deleteItem(connection,code);
 
             if (isDeleted){
-                resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
+                resp.setStatus(HttpServletResponse.SC_CREATED);
+                resp.getWriter().write("Item Delete Successfully");
+
             }else {
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Failed to delete item!!");
             }

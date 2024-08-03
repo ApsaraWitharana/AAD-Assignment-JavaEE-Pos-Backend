@@ -70,6 +70,7 @@ public class CustomerServlet extends HttpServlet {
             boolean isSaved = customerBO.saveCustomer(connection, customerDTO);
             if (isSaved) {
                 resp.setStatus(HttpServletResponse.SC_CREATED);
+                resp.getWriter().write("Customer Save Successfully");
             } else {
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "failed to save customer");
             }
@@ -128,7 +129,8 @@ public class CustomerServlet extends HttpServlet {
         try (Connection connection = connectionPool.getConnection()){
             boolean isDeleted = customerBO.deleteCustomer(connection,id);
             if (isDeleted){
-                resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
+                resp.setStatus(HttpServletResponse.SC_CREATED);
+                resp.getWriter().write("Customer Delete Successfully");
             }else{
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Failed to delete customer!");
             }
@@ -163,7 +165,8 @@ public class CustomerServlet extends HttpServlet {
             }
             boolean isUpdated = customerBO.updateCustomer(connection, customerDTO);
             if (isUpdated) {
-                resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
+                resp.setStatus(HttpServletResponse.SC_CREATED);
+                resp.getWriter().write("Customer Update Successfully");
 
             } else {
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "failed to update customer");
