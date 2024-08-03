@@ -19,8 +19,9 @@ public class ItemBOImpl implements ItemBO {
     }
 
     @Override
-    public boolean updateItem(Connection connection, ItemDTO itemDTO) throws SQLException {
-        return false;
+    public boolean updateItem(Connection connection, ItemDTO dto) throws SQLException {
+        return itemDAO.save(connection,new Item(dto.getCode(),dto.getName(),dto.getPrice(),dto.getQty()));
+
     }
 
     @Override
@@ -54,7 +55,7 @@ public class ItemBOImpl implements ItemBO {
     }
 
     @Override
-    public boolean removeItem(Connection connection, String id) throws SQLException {
-        return false;
+    public boolean deleteItem(Connection connection, String code) throws SQLException {
+        return itemDAO.delete(connection,code);
     }
 }

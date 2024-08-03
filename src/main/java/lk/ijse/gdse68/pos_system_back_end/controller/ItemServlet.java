@@ -85,6 +85,7 @@ public class ItemServlet extends HttpServlet {
         }
     }
 
+    @SneakyThrows
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try (Connection connection = connectionPool.getConnection()) {
@@ -100,7 +101,7 @@ public class ItemServlet extends HttpServlet {
                 resp.getWriter().write("Name is empty or invalid!");
                 return;
             } else if (itemDTO.getPrice() == null || !itemDTO.getPrice().toString().matches("\\d+(\\.\\d{1,2})")) {
-                resp.getWriter().write("price is empty or invalid!");
+                resp.getWriter().write("Price is empty or invalid!");
                 return;
             } else if (String.valueOf(itemDTO.getQty()) == null || !String.valueOf(itemDTO.getQty()).matches("^\\d+(\\.\\d{1,2})?$")) {
                 resp.getWriter().write("Qty is empty or invalid");
@@ -120,13 +121,93 @@ public class ItemServlet extends HttpServlet {
         }
     }
 
+//    @Override
+//    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        try (Connection connection = connectionPool.getConnection()){
+//            Jsonb jsonb = JsonbBuilder.create();
+//
+//            ItemDTO itemDTO = jsonb.fromJson(req.getReader(),ItemDTO.class);
+//            System.out.println(itemDTO);
+//
+//            if (itemDTO.getCode() == null || !itemDTO.getCode().matches("^(I00-)[0-9]{3}$")) {
+//                resp.getWriter().write("Code is empty or invalid!");
+//                return;
+//            } else if (itemDTO.getName() == null || !itemDTO.getName().matches("^.{3,}$")) {
+//                resp.getWriter().write("Name is empty or invalid!");
+//                return;
+//            } else if (itemDTO.getPrice() == null || !itemDTO.getPrice().toString().matches("\\d+(\\.\\d{1,2})")) {
+//                resp.getWriter().write("Price is empty or invalid!");
+//                return;
+//            } else if (String.valueOf(itemDTO.getQty()) == null || !String.valueOf(itemDTO.getQty()).matches("^\\d+(\\.\\d{1,2})?$")) {
+//                resp.getWriter().write("Qty is empty or invalid!");
+//                return;
+//            }
+//
+//            boolean isUpdated = itemBO.updateItem(connection,itemDTO);
+//            if (isUpdated){
+//                resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
+//            }else {
+//                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Failed to update item details!");
+//            }
+//
+//        } catch (SQLIntegrityConstraintViolationException e) {
+//            resp.sendError(HttpServletResponse.SC_CONFLICT,"Duplicate values! Please check again");
+//        }catch (SQLException e){
+//            throw new RuntimeException(e);
+//        }
+//    }
+
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPut(req, resp);
+        try (Connection connection = connectionPool.getConnection()){
+            Jsonb jsonb = JsonbBuilder.create();
+
+            ItemDTO itemDTO = jsonb.fromJson(req.getReader(), ItemDTO.class);
+            System.out.println(itemDTO);
+
+            if (itemDTO.getCode() == null || !itemDTO.getCode().matches("^(I00-)[0-9]{3}$")) {
+                resp.getWriter().write("Code is empty or invalid!");
+                return;
+            } else if (itemDTO.getName() == null || !itemDTO.getName().matches("^.{3,}$")) {
+                resp.getWriter().write("Name is empty or invalid!");
+                return;
+            } else if (itemDTO.getPrice() == null || !itemDTO.getPrice().toString().matches("\\d+(\\.\\d{1,2})")) {
+                resp.getWriter().write("Price is empty or invalid!");
+                return;
+            } else if (String.valueOf(itemDTO.getQty()) == null || !String.valueOf(itemDTO.getQty()).matches("^\\d+(\\.\\d{1,2})?$")) {
+                resp.getWriter().write("Qty is empty or invalid");
+                return;
+            }
+
+            boolean isUpdated = itemBO.updateItem(connection, itemDTO);
+            if(isUpdated){
+                resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
+            }else{
+                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "failed to update item details");
+            }
+        }catch (SQLIntegrityConstraintViolationException e) {
+            resp.sendError(HttpServletResponse.SC_CONFLICT, "Duplicate values. Please check again");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
+
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doDelete(req, resp);
+        String code = req.getParameter("code");
+
+        try (Connection connection = connectionPool.getConnection()){
+            boolean isDeleted = itemBO.deleteItem(connection,code);
+
+            if (isDeleted){
+                resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
+            }else {
+                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Failed to delete item!!");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

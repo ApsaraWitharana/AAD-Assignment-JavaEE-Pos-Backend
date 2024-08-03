@@ -18,7 +18,8 @@ public class ItemDAOImpl implements ItemDAO {
 
     @Override
     public boolean update(Connection connection, Item entity) throws SQLException {
-        return false;
+        String sql = "UPDATE item SET name = ?, price = ?, qty = ? WHERE code = ?";
+        return CrudUtil.execute(connection,sql,entity.getName(),entity.getPrice(),entity.getQty(),entity.getCode());
     }
 
     @Override
@@ -43,8 +44,9 @@ public class ItemDAOImpl implements ItemDAO {
 
 
     @Override
-    public boolean delete(Connection connection, String id) throws SQLException {
-        return false;
+    public boolean delete(Connection connection, String code) throws SQLException {
+        String sql = "DELETE FROM item WHERE code = ?";
+        return CrudUtil.execute(connection,sql,code);
     }
 
     @Override
