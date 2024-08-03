@@ -63,4 +63,9 @@ public class ItemDAOImpl implements ItemDAO {
         }
         return item;
     }
+
+    @Override
+    public boolean reduceQty(Connection connection, Item item) {
+        return false;
+    }
 }

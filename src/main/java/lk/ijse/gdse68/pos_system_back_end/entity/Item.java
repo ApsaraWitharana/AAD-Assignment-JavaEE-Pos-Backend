@@ -16,4 +16,7 @@ public class Item {
     private BigDecimal price;
     private int qty;
 
+    public Item(String itemCode, int qty) {
+
+    }
 }
