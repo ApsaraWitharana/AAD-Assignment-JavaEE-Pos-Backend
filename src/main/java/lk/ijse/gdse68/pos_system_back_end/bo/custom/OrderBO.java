@@ -7,4 +7,8 @@ import java.sql.SQLException;
 
 public interface OrderBO {
     boolean placeOrder(Connection connection, OrderDTO orderDTO) throws SQLException;
+
+    String getLastId(Connection connection) throws SQLException;
+
+    OrderDTO getOrderById(Connection connection, String id) throws SQLException;
 }

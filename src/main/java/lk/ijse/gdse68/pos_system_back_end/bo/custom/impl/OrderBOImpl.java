@@ -22,6 +22,10 @@ public class OrderBOImpl implements OrderBO {
     OrderDAO orderDAO = (OrderDAO) new OrderDAOImpl();
     OrderDetailsDAO orderDetailsDAO = (OrderDetailsDAO) new OrderDetailDAOImpl();
     ItemDAO itemDAO = (ItemDAO) new ItemDAOImpl();
+
+    public String getLastId(Connection connection) throws SQLException {
+        return orderDAO.getLastId(connection);
+    }
     @Override
     public boolean placeOrder(Connection connection, OrderDTO dto) throws SQLException {
         try {
@@ -64,5 +68,16 @@ public class OrderBOImpl implements OrderBO {
             }
         }
         return true;
+    }
+
+    public OrderDTO getOrderById(Connection connection,String id) throws SQLException {
+        Order order = orderDAO.findBy(connection,id);
+        return new OrderDTO(
+                order.getOrder_id(),
+                order.getDate(),
+                order.getCust_id(),
+                order.getDiscount(),
+                order.getTotal()
+        );
     }
 }
