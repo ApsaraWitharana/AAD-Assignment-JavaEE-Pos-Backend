@@ -50,7 +50,7 @@ public class OrderBOImpl implements OrderBO {
         }
     }
 
-    private boolean updateItemQty(Connection connection, List<OrderDetailsDTO> orderList) {
+    private boolean updateItemQty(Connection connection, List<OrderDetailsDTO> orderList) throws SQLException {
         for (OrderDetailsDTO dto:orderList){
             Item item = new Item(dto.getItem_code(),dto.getQty());
             if (!itemDAO.reduceQty(connection,item)){

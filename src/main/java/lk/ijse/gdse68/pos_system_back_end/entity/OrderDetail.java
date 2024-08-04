@@ -16,4 +16,6 @@ public class OrderDetail {
     private BigDecimal unit_price;
     private int qty;
 
+    public OrderDetail(String string, BigDecimal bigDecimal, int anInt) {
+    }
 }

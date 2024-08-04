@@ -13,22 +13,22 @@ public class ItemDAOImpl implements ItemDAO {
     @Override
     public boolean save(Connection connection, Item entity) throws SQLException {
         String sql = "INSERT INTO item (code,name,price,qty) VALUES (?,?,?,?)";
-        return CrudUtil.execute(connection,sql,entity.getCode(),entity.getName(),entity.getPrice(),entity.getQty());
+        return CrudUtil.execute(connection, sql, entity.getCode(), entity.getName(), entity.getPrice(), entity.getQty());
     }
 
     @Override
     public boolean update(Connection connection, Item entity) throws SQLException {
         String sql = "UPDATE item SET name = ?, price = ?, qty = ? WHERE code = ?";
-        return CrudUtil.execute(connection,sql,entity.getName(),entity.getPrice(),entity.getQty(),entity.getCode());
+        return CrudUtil.execute(connection, sql, entity.getName(), entity.getPrice(), entity.getQty(), entity.getCode());
     }
 
     @Override
     public ArrayList<Item> getAll(Connection connection) throws SQLException {
         String sql = "SELECT * FROM item";
         ArrayList<Item> itemList = new ArrayList<Item>();
-        ResultSet rst = CrudUtil.execute(connection,sql);
+        ResultSet rst = CrudUtil.execute(connection, sql);
 
-        while (rst.next()){
+        while (rst.next()) {
             Item item = new Item(
                     rst.getString(1),
                     rst.getString(2),
@@ -46,16 +46,16 @@ public class ItemDAOImpl implements ItemDAO {
     @Override
     public boolean delete(Connection connection, String code) throws SQLException {
         String sql = "DELETE FROM item WHERE code = ?";
-        return CrudUtil.execute(connection,sql,code);
+        return CrudUtil.execute(connection, sql, code);
     }
 
     @Override
     public Item findBy(Connection connection, String code) throws SQLException {
         String sql = "SELECT * FROM item WHERE code = ?";
         Item item = new Item();
-        ResultSet rst = CrudUtil.execute(connection,sql,code);
+        ResultSet rst = CrudUtil.execute(connection, sql, code);
 
-        if (rst.next()){
+        if (rst.next()) {
             item.setCode(rst.getString(1));
             item.setName(rst.getString(2));
             item.setPrice(rst.getBigDecimal(3));
@@ -65,7 +65,8 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
-    public boolean reduceQty(Connection connection, Item item) {
-        return false;
+    public boolean reduceQty(Connection connection, Item item) throws SQLException {
+        String sql = "UPDATE item SET qty = ( qty - ? ) WHERE code = ?";
+        return CrudUtil.execute(connection, sql, item.getQty(), item.getCode());
     }
 }

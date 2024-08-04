@@ -18,4 +18,6 @@ public class OrderDetailsDTO {
     int qty;
 
 
+    public OrderDetailsDTO(String itemCode, BigDecimal unitPrice, int qty) {
+    }
 }
