@@ -19,6 +19,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 @WebServlet(name = "orders" , urlPatterns = "/order")
 public class OrderServlet extends HttpServlet {
@@ -146,12 +147,14 @@ public class OrderServlet extends HttpServlet {
             boolean isOrder = orderBO.placeOrder(connection, orderDTO);
             if (isOrder) {
                 resp.setStatus(HttpServletResponse.SC_CREATED);
-                resp.getWriter().write("Save Order Successfully");
+                resp.getWriter().write("Save Order Successfully!!");
             } else {
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Failed to add Order");
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "transaction failed");
         }
     }
 

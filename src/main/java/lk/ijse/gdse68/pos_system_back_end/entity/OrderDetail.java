@@ -16,6 +16,9 @@ public class OrderDetail {
     private BigDecimal unit_price;
     private int qty;
 
-    public OrderDetail(String string, BigDecimal bigDecimal, int anInt) {
+    public OrderDetail(String item_code, BigDecimal unit_price, int qty) {
+        this.item_code = item_code;
+        this.unit_price = unit_price;
+        this.qty = qty;
     }
 }

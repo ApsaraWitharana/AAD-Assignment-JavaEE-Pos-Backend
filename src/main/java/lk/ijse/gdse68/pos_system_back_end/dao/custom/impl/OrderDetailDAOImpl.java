@@ -47,6 +47,7 @@ public class OrderDetailDAOImpl implements OrderDetailsDAO {
         while (rst.next()){
             OrderDetail orderDetail = new OrderDetail(
                     rst.getString(3),
+//                    rst.getString(2),
                     rst.getBigDecimal(4),
                     rst.getInt(5)
             );

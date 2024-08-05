@@ -17,7 +17,9 @@ public class OrderDetailsDTO {
     BigDecimal unit_price;
     int qty;
 
-
-    public OrderDetailsDTO(String itemCode, BigDecimal unitPrice, int qty) {
+    public OrderDetailsDTO(String item_code, BigDecimal unit_price, int qty) {
+        this.item_code = item_code;
+        this.unit_price = unit_price;
+        this.qty = qty;
     }
 }

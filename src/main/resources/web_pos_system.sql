@@ -29,10 +29,20 @@ create table orders(
                        CONSTRAINT FOREIGN KEY (cust_id) REFERENCES customer(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-create table order_details(
-                              order_id VARCHAR(15) PRIMARY KEY,
-                              item_code VARCHAR(15) NOT NULL,
-                              unit_price DECIMAL(10,2) NOT NULL,
-                              qty INT,
-                              CONSTRAINT FOREIGN KEY (item_code) REFERENCES item(code) ON DELETE CASCADE ON UPDATE CASCADE
+# create table order_details(
+#                               order_id VARCHAR(15) PRIMARY KEY,
+#                               item_code VARCHAR(15) NOT NULL,
+#                               unit_price DECIMAL(10,2) NOT NULL,
+#                               qty INT,
+#                               CONSTRAINT FOREIGN KEY (item_code) REFERENCES item(code) ON DELETE CASCADE ON UPDATE CASCADE
+# );
+
+CREATE TABLE order_details (
+                               order_id VARCHAR(15) NOT NULL,
+                               item_code VARCHAR(15) NOT NULL,
+                               unit_price DECIMAL(10, 2) NOT NULL,
+                               qty INT,
+                               PRIMARY KEY (order_id, item_code),
+                               CONSTRAINT fk_order FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE ON UPDATE CASCADE,
+                               CONSTRAINT fk_item FOREIGN KEY (item_code) REFERENCES item(code) ON DELETE CASCADE ON UPDATE CASCADE
 );
