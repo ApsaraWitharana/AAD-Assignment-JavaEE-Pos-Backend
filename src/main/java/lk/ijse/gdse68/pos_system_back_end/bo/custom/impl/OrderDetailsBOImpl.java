@@ -24,7 +24,7 @@ public class OrderDetailsBOImpl implements OrderDetailsBO {
     @Override
     public OrderDTO getOrderDetailsById(Connection connection, String id) throws SQLException {
         OrderDTO orderDTO = new OrderDTO();
-
+        System.out.println(orderDTO);
         Orders order = orderDAO.findBy(connection, id);
         orderDTO.setDate(order.getDate());
         orderDTO.setCust_id(order.getCust_id());
@@ -45,4 +45,5 @@ public class OrderDetailsBOImpl implements OrderDetailsBO {
 
         return orderDTO;
     }
+
 }

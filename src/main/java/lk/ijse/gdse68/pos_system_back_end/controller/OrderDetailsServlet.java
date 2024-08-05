@@ -11,6 +11,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import lk.ijse.gdse68.pos_system_back_end.bo.custom.OrderDetailsBO;
 import lk.ijse.gdse68.pos_system_back_end.bo.custom.impl.OrderDetailsBOImpl;
 import lk.ijse.gdse68.pos_system_back_end.dto.OrderDTO;
+import lk.ijse.gdse68.pos_system_back_end.dto.OrderDetailsDTO;
+import lk.ijse.gdse68.pos_system_back_end.entity.OrderDetail;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -18,6 +20,8 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet(urlPatterns = "/orderDetails")
 public class OrderDetailsServlet extends HttpServlet {
@@ -48,7 +52,7 @@ public class OrderDetailsServlet extends HttpServlet {
             String id = req.getParameter("id");
             try (Connection connection = connectionPool.getConnection()){
                 OrderDTO orderDTO = orderDetailsBO.getOrderDetailsById(connection, id);
-
+                System.out.println(orderDTO);
                 Jsonb jsonb = JsonbBuilder.create();
                 String json = jsonb.toJson(orderDTO);
                 resp.getWriter().write(json);
@@ -62,4 +66,6 @@ public class OrderDetailsServlet extends HttpServlet {
             }
         }
     }
+
+
 }

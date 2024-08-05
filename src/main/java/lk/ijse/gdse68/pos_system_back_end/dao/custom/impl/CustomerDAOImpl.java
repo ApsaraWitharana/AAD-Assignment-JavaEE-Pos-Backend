@@ -64,16 +64,14 @@ public class CustomerDAOImpl implements CustomerDAO {
         return customer;
     }
 
-    private boolean isCustomerExist(Connection connection, String cust_id) throws SQLException {
-        String sql = "SELECT COUNT(*) FROM customer WHERE id = ?";
-        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setString(1, cust_id);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getInt(1) > 0;
-                }
+
+    public boolean exists(Connection connection, String custId) throws SQLException {
+        String query = "SELECT 1 FROM customer WHERE id = ?";
+        try (PreparedStatement pst = connection.prepareStatement(query)) {
+            pst.setString(1, custId);
+            try (ResultSet rs = pst.executeQuery()) {
+                return rs.next();
             }
         }
-        return false;
     }
 }

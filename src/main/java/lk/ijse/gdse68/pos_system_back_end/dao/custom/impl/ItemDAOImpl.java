@@ -5,6 +5,7 @@ import lk.ijse.gdse68.pos_system_back_end.dao.util.CrudUtil;
 import lk.ijse.gdse68.pos_system_back_end.entity.Item;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -68,5 +69,15 @@ public class ItemDAOImpl implements ItemDAO {
     public boolean reduceQty(Connection connection, Item item) throws SQLException {
         String sql = "UPDATE item SET qty = ( qty - ? ) WHERE code = ?";
         return CrudUtil.execute(connection, sql, item.getQty(), item.getCode());
+    }
+
+    public boolean exists(Connection connection, String itemCode) throws SQLException {
+        String query = "SELECT 1 FROM item WHERE code = ?";
+        try (PreparedStatement pst = connection.prepareStatement(query)) {
+            pst.setString(1, itemCode);
+            try (ResultSet rs = pst.executeQuery()) {
+                return rs.next();
+            }
+        }
     }
 }

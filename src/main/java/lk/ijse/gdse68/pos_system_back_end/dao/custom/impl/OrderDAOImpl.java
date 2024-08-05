@@ -14,6 +14,7 @@ public class OrderDAOImpl implements OrderDAO {
     public boolean save(Connection connection, Orders entity) throws SQLException {
         String sql = "INSERT INTO orders (order_id, date, cust_id, discount, total) VALUES( ?, ?, ?, ?, ? )";
         return CrudUtil.execute(connection, sql, entity.getOrder_id(), entity.getDate(), entity.getCust_id(), entity.getDiscount(), entity.getTotal());
+
     }
 
     @Override
@@ -52,6 +53,7 @@ public class OrderDAOImpl implements OrderDAO {
         ResultSet rs = CrudUtil.execute(connection, sql, id);
 
         Orders orders = new Orders();
+        System.out.println(orders);
         if (rs.next()) {
             orders.setOrder_id(rs.getString("order_id"));
             orders.setDate(rs.getDate("date").toLocalDate());
