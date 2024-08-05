@@ -78,42 +78,96 @@ public class OrderBOImpl implements OrderBO {
 //    }
 
 
-public boolean placeOrder(Connection connection, OrderDTO dto) throws SQLException {
-    try {
-        connection.setAutoCommit(false);
+//public boolean placeOrder(Connection connection, OrderDTO dto) throws SQLException {
+//    try {
+//        connection.setAutoCommit(false);
+//
+//        // Check if customer exists
+//        boolean customerExists = customerDAO.exists(connection, dto.getCust_id());
+//        if (!customerExists) {
+//            throw new SQLException("Customer ID does not exist: " + dto.getCust_id());
+//
+//        }
+//
+//        // Save order
+//        boolean isOrderSave = orderDAO.save(connection, new Orders(dto.getOrder_id(), dto.getCust_id(), dto.getDate(), dto.getDiscount(), dto.getTotal()));
+//        if (isOrderSave) {
+//            // Save order details
+//            boolean isOrderDetailsSaved = saveOrderDetails(connection, dto.getOrder_list());
+//            if (isOrderDetailsSaved) {
+//                // Update item quantity
+//                boolean isItemQtyUpdated = updateItemQty(connection, dto.getOrder_list());
+//                if (isItemQtyUpdated) {
+//                    connection.commit();
+//                    return true;
+//                }
+//            }
+//        }
+//        return false;
+//    } catch (SQLException throwables) {
+//        throwables.printStackTrace();
+//        connection.rollback();
+//        return false;
+//    }
+//}
+//
 
-        // Check if customer exists
-        boolean customerExists = customerDAO.exists(connection, dto.getCust_id());
-        if (!customerExists) {
-            throw new SQLException("Customer ID does not exist: " + dto.getCust_id());
-        }
+    @Override
+    public boolean placeOrder(Connection connection, OrderDTO dto) throws SQLException {
+        try {
+            connection.setAutoCommit(false);
 
-        // Save order
-        boolean isOrderSave = orderDAO.save(connection, new Orders(dto.getOrder_id(), dto.getCust_id(), dto.getDate(), dto.getDiscount(), dto.getTotal()));
-        if (isOrderSave) {
-            // Save order details
-            boolean isOrderDetailsSaved = saveOrderDetails(connection, dto.getOrder_list());
-            if (isOrderDetailsSaved) {
-                // Update item quantity
-                boolean isItemQtyUpdated = updateItemQty(connection, dto.getOrder_list());
-                if (isItemQtyUpdated) {
-                    connection.commit();
-                    return true;
+            // Check if customer exists
+            boolean customerExists = customerDAO.exists(connection, dto.getCust_id());
+            if (!customerExists) {
+                throw new SQLException("Customer ID does not exist: " + dto.getCust_id());
+            }
+
+            // Save order
+            boolean isOrderSave = orderDAO.save(connection, new Orders(dto.getOrder_id(), dto.getCust_id(), dto.getDate(), dto.getDiscount(), dto.getTotal()));
+            if (!isOrderSave) {
+                throw new SQLException("Failed to save order");
+            }
+
+            // Save order details and update item quantities
+            for (OrderDetailsDTO details : dto.getOrder_list()) {
+                // Check if item exists and has sufficient quantity
+                boolean itemExists = itemDAO.exists(connection, details.getItem_code());
+                if (!itemExists) {
+                    throw new SQLException("Item code does not exist: " + details.getItem_code());
+                }
+
+                Item item = itemDAO.findBy(connection, details.getItem_code());
+                if (item.getQty() < details.getQty()) {
+                    throw new SQLException("Insufficient quantity for item: " + details.getItem_code());
+                }
+
+                // Save order detail
+                boolean isOrderDetailSaved = orderDetailsDAO.save(connection, new OrderDetail(details.getOrder_id(), details.getItem_code(), details.getUnit_price(), details.getQty()));
+                if (!isOrderDetailSaved) {
+                    throw new SQLException("Failed to save order detail for item: " + details.getItem_code());
+                }
+
+                // Reduce item quantity
+                boolean isQtyReduced = itemDAO.reduceQty(connection, new Item(details.getItem_code(), details.getQty()));
+                if (!isQtyReduced) {
+                    throw new SQLException("Failed to reduce quantity for item: " + details.getItem_code());
                 }
             }
-        }
-        return false;
-    } catch (SQLException throwables) {
-        throwables.printStackTrace();
-        connection.rollback();
-        return false;
-    }
-}
 
+            connection.commit();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            connection.rollback();
+            return false;
+        }
+    }
 
     private boolean updateItemQty(Connection connection, List<OrderDetailsDTO> order_list) throws SQLException {
         for (OrderDetailsDTO dto : order_list) {
             Item item = new Item(dto.getItem_code(), dto.getQty());
+            System.out.println("updateItemQty::"+ item);
             if (!itemDAO.reduceQty(connection, item)) {
                 return false;
             }
@@ -152,7 +206,7 @@ public boolean saveOrderDetails(Connection connection, List<OrderDetailsDTO> ord
     @Override
     public OrderDTO getOrderById(Connection connection, String id) throws SQLException {
         Orders orders = orderDAO.findBy(connection, id);
-
+        System.out.println("getOrderById ::"+orders);
         return new OrderDTO(
                 orders.getOrder_id(),
                 orders.getDate(),

@@ -65,11 +65,27 @@ public class ItemDAOImpl implements ItemDAO {
         return item;
     }
 
-    @Override
-    public boolean reduceQty(Connection connection, Item item) throws SQLException {
-        String sql = "UPDATE item SET qty = ( qty - ? ) WHERE code = ?";
-        return CrudUtil.execute(connection, sql, item.getQty(), item.getCode());
+//    @Override
+//    public boolean reduceQty(Connection connection, Item item) throws SQLException {
+//        String sql = "UPDATE item SET qty = ( qty - ? ) WHERE code = ?";
+//        return CrudUtil.execute(connection, sql, item.getQty(), item.getCode());
+//    }
+@Override
+public boolean reduceQty(Connection connection, Item item) throws SQLException {
+    String sql = "UPDATE item SET qty = (qty - ?) WHERE code = ?";
+    try (PreparedStatement pst = connection.prepareStatement(sql)) {
+        System.out.println("Executing SQL: " + sql);
+        System.out.println("Parameters: qty = " + item.getQty() + ", code = " + item.getCode());
+        pst.setInt(1, item.getQty());
+        pst.setString(2, item.getCode());
+        int result = pst.executeUpdate();
+        System.out.println("Update result: " + result);
+        return result > 0;
+    } catch (SQLException e) {
+        e.printStackTrace();
+        throw new SQLException("Failed to reduce quantity for item: " + item.getCode(), e);
     }
+}
 
     public boolean exists(Connection connection, String itemCode) throws SQLException {
         String query = "SELECT 1 FROM item WHERE code = ?";
