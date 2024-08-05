@@ -13,7 +13,6 @@ import java.util.List;
 @Getter
 @ToString
 public class OrderDTO {
-
     String order_id;
     LocalDate date;
     String cust_id;
@@ -31,5 +30,8 @@ public class OrderDTO {
 
 
     public OrderDTO(String orderId, LocalDate date, String custId) {
+        this.order_id = order_id;
+        this.date = date;
+        this.cust_id = cust_id;
     }
 }
