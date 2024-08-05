@@ -9,4 +9,5 @@ import java.util.List;
 
 public interface OrderDetailsDAO extends CrudDAO<OrderDetail> {
     List<OrderDetail> getAllById(Connection connection, String id) throws SQLException;
+
 }

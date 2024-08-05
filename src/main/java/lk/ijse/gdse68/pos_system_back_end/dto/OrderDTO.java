@@ -1,11 +1,9 @@
 package lk.ijse.gdse68.pos_system_back_end.dto;
 
-import lk.ijse.gdse68.pos_system_back_end.entity.Order;
 import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -32,4 +30,6 @@ public class OrderDTO {
     }
 
 
+    public OrderDTO(String orderId, LocalDate date, String custId) {
+    }
 }

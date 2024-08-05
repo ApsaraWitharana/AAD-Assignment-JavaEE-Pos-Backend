@@ -2,6 +2,7 @@ package lk.ijse.gdse68.pos_system_back_end.dao.custom.impl;
 
 import lk.ijse.gdse68.pos_system_back_end.dao.custom.OrderDetailsDAO;
 import lk.ijse.gdse68.pos_system_back_end.dao.util.CrudUtil;
+import lk.ijse.gdse68.pos_system_back_end.entity.Customer;
 import lk.ijse.gdse68.pos_system_back_end.entity.OrderDetail;
 
 import java.sql.Connection;
@@ -14,7 +15,7 @@ public class OrderDetailDAOImpl implements OrderDetailsDAO {
     @Override
     public boolean save(Connection connection, OrderDetail entity) throws SQLException {
         String sql = "INSERT INTO order_details (order_id,item_code,unit_price,qty) VALUES (?,?,?,?)";
-        return CrudUtil.execute(connection,sql,entity.getOrder_id(),entity.getItem_code(),entity.getUnit_price(),entity.getQty());
+        return CrudUtil.execute(connection, sql, entity.getOrder_id(), entity.getItem_code(),entity.getUnit_price(), entity.getQty());
 
     }
 
@@ -25,7 +26,22 @@ public class OrderDetailDAOImpl implements OrderDetailsDAO {
 
     @Override
     public ArrayList<OrderDetail> getAll(Connection connection) throws SQLException {
-        return null;
+        String sql = "SELECT * FROM order_details";
+        ArrayList<OrderDetail> orderDetailsList = new ArrayList<OrderDetail>();
+        ResultSet rst = CrudUtil.execute(connection, sql);
+
+        while (rst.next()) {
+            OrderDetail orderDetail = new OrderDetail(
+                    rst.getString(1),
+                    rst.getString(2),
+                    rst.getBigDecimal(3),
+                    rst.getInt(4)
+
+            );
+
+            orderDetailsList.add(orderDetail);
+        }
+        return orderDetailsList;
     }
 
     @Override
@@ -40,20 +56,18 @@ public class OrderDetailDAOImpl implements OrderDetailsDAO {
 
     @Override
     public List<OrderDetail> getAllById(Connection connection, String id) throws SQLException {
-       String sql = "SELECT * FROM order_details WHERE order_id = ?";
-        ResultSet rst = CrudUtil.execute(connection,sql,id);
+        String sql = "SELECT * FROM order_details WHERE order_id = ?";
+        ResultSet rs = CrudUtil.execute(connection, sql, id);
 
         List<OrderDetail> orderDetailList = new ArrayList<OrderDetail>();
-        while (rst.next()){
+        while( rs.next() ) {
             OrderDetail orderDetail = new OrderDetail(
-                    rst.getString(3),
-//                    rst.getString(2),
-                    rst.getBigDecimal(4),
-                    rst.getInt(5)
+                    rs.getString(3),
+                    rs.getBigDecimal(4),
+                    rs.getInt(5)
             );
             orderDetailList.add(orderDetail);
         }
         return orderDetailList;
-
     }
 }

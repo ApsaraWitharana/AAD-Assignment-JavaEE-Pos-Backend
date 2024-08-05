@@ -11,11 +11,12 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @ToString
-public class Order {
+public class Orders {
 
     private String order_id;
-    private LocalDate date;
     private String cust_id;
+    private LocalDate date;
     private BigDecimal discount;
     private BigDecimal total;
+
 }

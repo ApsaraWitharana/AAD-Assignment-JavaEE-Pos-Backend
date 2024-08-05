@@ -61,6 +61,5 @@ public class OrderDetailsServlet extends HttpServlet {
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
             }
         }
-
     }
 }
