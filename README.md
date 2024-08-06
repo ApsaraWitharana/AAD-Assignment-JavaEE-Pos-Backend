@@ -140,10 +140,6 @@ This documentation provides interactive access to the following APIs and Refer t
 - **Order Details API documentation URL**  [https://documenter.getpostman.com/view/35385905/2sA3rxrZgg]
 
 
-
-### Code of Conduct
-Please follow the [Code of Conduct](CODE_OF_CONDUCT.md) for contributing.
-
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
