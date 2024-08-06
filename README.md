@@ -40,8 +40,8 @@ The POS System Backend is a RESTful API that supports the frontend operations of
 ### Steps
 1. **Clone the repository**
     ```bash
-    git clone https://github.com/yourusername/pos-system-backend.git
-    cd pos-system-backend
+    git clone https://github.com/ApsaraWitharana/AAD-Assignment-JavaEE-Pos-Backend.git
+  
     ```
 
 2. **Configure the database**
