@@ -1,6 +1,7 @@
 package lk.ijse.gdse68.pos_system_back_end.bo.custom.impl;
 
 import lk.ijse.gdse68.pos_system_back_end.bo.custom.OrderBO;
+import lk.ijse.gdse68.pos_system_back_end.dao.DAOFactory;
 import lk.ijse.gdse68.pos_system_back_end.dao.custom.CustomerDAO;
 import lk.ijse.gdse68.pos_system_back_end.dao.custom.ItemDAO;
 import lk.ijse.gdse68.pos_system_back_end.dao.custom.OrderDAO;
@@ -23,10 +24,10 @@ import java.util.List;
 
 public class OrderBOImpl implements OrderBO {
 
-    CustomerDAO customerDAO = (CustomerDAO) new CustomerDAOImpl();
-    OrderDAO orderDAO = (OrderDAO) new OrderDAOImpl();
-    OrderDetailsDAO orderDetailsDAO = (OrderDetailsDAO) new OrderDetailDAOImpl();
-    ItemDAO itemDAO = (ItemDAO) new ItemDAOImpl();
+    CustomerDAO customerDAO = DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.CUSTOMER_DAO);
+    OrderDAO orderDAO = DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ORDER_DAO);
+    OrderDetailsDAO orderDetailsDAO = DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ORDER_DETAILS_DAO);
+    ItemDAO itemDAO = DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ITEM_DAO);
 
     public String getLastId(Connection connection) throws SQLException {
         return orderDAO.getLastId(connection);

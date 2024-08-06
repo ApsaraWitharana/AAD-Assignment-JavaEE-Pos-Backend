@@ -8,6 +8,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lk.ijse.gdse68.pos_system_back_end.bo.BOFactory;
 import lk.ijse.gdse68.pos_system_back_end.bo.custom.OrderDetailsBO;
 import lk.ijse.gdse68.pos_system_back_end.bo.custom.impl.OrderDetailsBOImpl;
 import lk.ijse.gdse68.pos_system_back_end.dto.OrderDTO;
@@ -27,7 +28,7 @@ import java.util.List;
 @WebServlet(urlPatterns = "/orderDetails")
 public class OrderDetailsServlet extends HttpServlet {
 
-    OrderDetailsBO orderDetailsBO = (OrderDetailsBO) new OrderDetailsBOImpl();
+    OrderDetailsBO orderDetailsBO = BOFactory.getBoFactory().getBO(BOFactory.BoTypes.ORDER_DETAIL_BO);
     DataSource connectionPool;
     @Override
     public void init() throws ServletException {

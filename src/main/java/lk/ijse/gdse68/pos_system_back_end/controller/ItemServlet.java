@@ -8,6 +8,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lk.ijse.gdse68.pos_system_back_end.bo.BOFactory;
 import lk.ijse.gdse68.pos_system_back_end.bo.custom.ItemBO;
 import lk.ijse.gdse68.pos_system_back_end.bo.custom.impl.ItemBOImpl;
 import lk.ijse.gdse68.pos_system_back_end.dto.CustomerDTO;
@@ -27,7 +28,7 @@ import java.util.ArrayList;
 @WebServlet(name = "item",urlPatterns = "/item")
 public class ItemServlet extends HttpServlet {
 
-    ItemBO itemBO = (ItemBO) new ItemBOImpl();
+    ItemBO itemBO = BOFactory.getBoFactory().getBO(BOFactory.BoTypes.ITEM_BO);
 
     DataSource connectionPool;
 

@@ -1,6 +1,7 @@
 package lk.ijse.gdse68.pos_system_back_end.bo.custom.impl;
 
 import lk.ijse.gdse68.pos_system_back_end.bo.custom.CustomerBO;
+import lk.ijse.gdse68.pos_system_back_end.dao.DAOFactory;
 import lk.ijse.gdse68.pos_system_back_end.dao.custom.CustomerDAO;
 import lk.ijse.gdse68.pos_system_back_end.dao.custom.impl.CustomerDAOImpl;
 import lk.ijse.gdse68.pos_system_back_end.dto.CustomerDTO;
@@ -11,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class CustomerBOImpl implements CustomerBO {
-    CustomerDAO customerDAO = (CustomerDAO) new CustomerDAOImpl();
+    CustomerDAO customerDAO = DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.CUSTOMER_DAO);
     @Override
     public boolean saveCustomer(Connection connection, CustomerDTO dto) throws SQLException {
         return customerDAO.save(connection,new Customer(dto.getId(),dto.getName(),dto.getAddress(),dto.getSalary()));

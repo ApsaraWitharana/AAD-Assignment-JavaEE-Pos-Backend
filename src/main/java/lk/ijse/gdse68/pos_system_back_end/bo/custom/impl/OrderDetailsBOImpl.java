@@ -2,6 +2,7 @@ package lk.ijse.gdse68.pos_system_back_end.bo.custom.impl;
 
 
 import lk.ijse.gdse68.pos_system_back_end.bo.custom.OrderDetailsBO;
+import lk.ijse.gdse68.pos_system_back_end.dao.DAOFactory;
 import lk.ijse.gdse68.pos_system_back_end.dao.custom.OrderDAO;
 import lk.ijse.gdse68.pos_system_back_end.dao.custom.OrderDetailsDAO;
 import lk.ijse.gdse68.pos_system_back_end.dao.custom.impl.OrderDAOImpl;
@@ -23,7 +24,7 @@ import java.util.List;
 public class OrderDetailsBOImpl implements OrderDetailsBO {
 
     OrderDAO orderDAO = (OrderDAO) new OrderDAOImpl();
-    OrderDetailsDAO orderDetailsDAO = (OrderDetailsDAO) new OrderDetailDAOImpl();
+    OrderDetailsDAO orderDetailsDAO = DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ORDER_DETAILS_DAO);
 
 //    @Override
 //    public OrderDTO getOrderDetailsById(Connection connection, String id) throws SQLException {

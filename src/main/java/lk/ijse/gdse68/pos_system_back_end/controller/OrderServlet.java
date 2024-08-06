@@ -8,6 +8,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lk.ijse.gdse68.pos_system_back_end.bo.BOFactory;
 import lk.ijse.gdse68.pos_system_back_end.bo.custom.OrderBO;
 import lk.ijse.gdse68.pos_system_back_end.bo.custom.OrderDetailsBO;
 import lk.ijse.gdse68.pos_system_back_end.bo.custom.impl.OrderBOImpl;
@@ -26,8 +27,8 @@ import java.sql.SQLIntegrityConstraintViolationException;
 @WebServlet(name = "orders" , urlPatterns = "/order")
 public class OrderServlet extends HttpServlet {
 
-    OrderBO orderBO = (OrderBO) new OrderBOImpl();
-    OrderDetailsBO orderDetailsBO =(OrderDetailsBO) new OrderDetailsBOImpl();
+    OrderBO orderBO = BOFactory.getBoFactory().getBO(BOFactory.BoTypes.ORDER_BO);
+    OrderDetailsBO orderDetailsBO = BOFactory.getBoFactory().getBO(BOFactory.BoTypes.ORDER_DETAIL_BO);
 
     DataSource connectionPool;
 
