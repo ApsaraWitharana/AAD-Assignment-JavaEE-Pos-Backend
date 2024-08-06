@@ -28,7 +28,7 @@ public class CustomerDAOImpl implements CustomerDAO {
         String sql = "SELECT * FROM customer";
         ArrayList<Customer> customerList = new ArrayList<Customer>();
         ResultSet rst = CrudUtil.execute(connection, sql);
-
+        System.out.println(customerList);
         while(rst.next()){
             Customer customer = new Customer(
                     rst.getString(1),

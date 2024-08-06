@@ -82,37 +82,61 @@ public class CustomerServlet extends HttpServlet {
         }
     }
 
+//    @SneakyThrows
+//    @Override
+//    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        String function = req.getParameter("function");
+//
+//        if (function != null) {
+//            if (function.equals("someValue")) {
+//                try (Connection connection = connectionPool.getConnection()) {
+//                    ArrayList<CustomerDTO> customerDTOList = customerBO.getAllCustomers(connection);
+//                    System.out.println(customerDTOList);
+//
+//                    Jsonb jsonb = JsonbBuilder.create();
+//                    String json = jsonb.toJson(customerDTOList);
+//                    resp.getWriter().write(json);
+//
+//                } catch (JsonbException | IOException | SQLException e) {
+//                    resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+//                }
+//            } else if (function.equals("getById")) {
+//                String id = req.getParameter("id");
+//
+//                try (Connection connection = connectionPool.getConnection()) {
+//                    CustomerDTO customerDTO = customerBO.getCustomerById(connection, id);
+//                    System.out.println(customerDTO);
+//
+//                    Jsonb jsonb = JsonbBuilder.create();
+//                    String json = jsonb.toJson(customerDTO);
+//                    resp.getWriter().write(json);
+//                } catch (JsonbException | IOException | SQLException e) {
+//                    resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+//                }
+//            } else {
+//                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid function parameter");
+//            }
+//        } else {
+//            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Function parameter is missing");
+//        }
+//    }
+
     @SneakyThrows
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // Log all request parameters
+        req.getParameterMap().forEach((key, value) -> {
+            System.out.println("Parameter: " + key + " = " + String.join(", ", value));
+        });
+
         String function = req.getParameter("function");
+        System.out.println("Function parameter: " + function);
 
         if (function != null) {
             if (function.equals("someValue")) {
-                try (Connection connection = connectionPool.getConnection()) {
-                    ArrayList<CustomerDTO> customerDTOList = customerBO.getAllCustomers(connection);
-                    System.out.println(customerDTOList);
-
-                    Jsonb jsonb = JsonbBuilder.create();
-                    String json = jsonb.toJson(customerDTOList);
-                    resp.getWriter().write(json);
-
-                } catch (JsonbException | IOException | SQLException e) {
-                    resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
-                }
+                handleGetAllCustomers(req, resp);
             } else if (function.equals("getById")) {
-                String id = req.getParameter("id");
-
-                try (Connection connection = connectionPool.getConnection()) {
-                    CustomerDTO customerDTO = customerBO.getCustomerById(connection, id);
-                    System.out.println(customerDTO);
-
-                    Jsonb jsonb = JsonbBuilder.create();
-                    String json = jsonb.toJson(customerDTO);
-                    resp.getWriter().write(json);
-                } catch (JsonbException | IOException | SQLException e) {
-                    resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
-                }
+                handleGetCustomerById(req, resp);
             } else {
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid function parameter");
             }
@@ -121,6 +145,33 @@ public class CustomerServlet extends HttpServlet {
         }
     }
 
+    private void handleGetAllCustomers(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        try (Connection connection = connectionPool.getConnection()) {
+            ArrayList<CustomerDTO> customerDTOList = customerBO.getAllCustomers(connection);
+            Jsonb jsonb = JsonbBuilder.create();
+            String json = jsonb.toJson(customerDTOList);
+            resp.getWriter().write(json);
+        } catch (JsonbException | IOException | SQLException e) {
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
+
+    private void handleGetCustomerById(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String id = req.getParameter("id");
+        if (id == null) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID parameter is missing");
+            return;
+        }
+
+        try (Connection connection = connectionPool.getConnection()) {
+            CustomerDTO customerDTO = customerBO.getCustomerById(connection, id);
+            Jsonb jsonb = JsonbBuilder.create();
+            String json = jsonb.toJson(customerDTO);
+            resp.getWriter().write(json);
+        } catch (JsonbException | IOException | SQLException e) {
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
 
     @SneakyThrows
     @Override

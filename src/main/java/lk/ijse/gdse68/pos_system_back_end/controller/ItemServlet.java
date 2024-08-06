@@ -50,7 +50,7 @@ public class ItemServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String function = req.getParameter("function");
-
+        System.out.println("Function parameter: " + function);
         if (function != null) {
             if (function.equals("someValue")) {
                 try (Connection connection = connectionPool.getConnection()) {
