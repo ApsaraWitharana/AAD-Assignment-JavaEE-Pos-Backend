@@ -28,7 +28,7 @@ import java.util.List;
 @WebServlet(urlPatterns = "/orderDetails")
 public class OrderDetailsServlet extends HttpServlet {
 
-    OrderDetailsBO orderDetailsBO = BOFactory.getBoFactory().getBO(BOFactory.BoTypes.ORDER_DETAIL_BO);
+    OrderDetailsBO orderDetailsBO = BOFactory.getBoFactory().getBO(BOFactory.BoTypes.ORDER_DETAILS_BO);
     DataSource connectionPool;
     @Override
     public void init() throws ServletException {

@@ -16,7 +16,7 @@ public class BOFactory {
     }
 
     public enum BoTypes{
-        CUSTOMER_BO,ITEM_BO,ORDER_BO,ORDER_DETAIL_BO
+        CUSTOMER_BO,ITEM_BO,ORDER_BO,ORDER_DETAILS_BO
     }
 
     public <T extends  SuperBO> T getBO(BoTypes types){
@@ -27,7 +27,7 @@ public class BOFactory {
                 return (T) new ItemBOImpl();
             case ORDER_BO:
                 return (T) new OrderBOImpl();
-            case ORDER_DETAIL_BO:
+            case ORDER_DETAILS_BO:
                 return (T) new OrderDetailsBOImpl();
 
             default:
