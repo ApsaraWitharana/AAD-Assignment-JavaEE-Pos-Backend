@@ -1,0 +1,26 @@
+{
+	"info": {
+		"_postman_id": "59e8c37b-2bc7-4a8c-aef1-4da4c514d6e0",
+		"name": "Order",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "35385905"
+	},
+	"item": [
+		{
+			"name": "SaveOrder",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "GetOrder",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
