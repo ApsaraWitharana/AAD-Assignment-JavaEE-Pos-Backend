@@ -45,26 +45,52 @@ public class OrderDetailsServlet extends HttpServlet {
         }
 
 
+//    @Override
+//    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        String function = req.getParameter("function");
+//
+//        if(function.equals("getById")){
+//            String id = req.getParameter("id");
+//            try (Connection connection = connectionPool.getConnection()){
+//                OrderDTO orderDTO = orderDetailsBO.getOrderDetailsById(connection, id);
+//                System.out.println(orderDTO);
+//                Jsonb jsonb = JsonbBuilder.create();
+//                String json = jsonb.toJson(orderDTO);
+//                resp.getWriter().write(json);
+//            } catch (JsonbException e) {
+//                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+//            } catch (IOException e) {
+//                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+//            }
+//        }
+//    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String function = req.getParameter("function");
+        String orderId = req.getParameter("order_id");
 
-        if(function.equals("getById")){
-            String id = req.getParameter("id");
-            try (Connection connection = connectionPool.getConnection()){
-                OrderDTO orderDTO = orderDetailsBO.getOrderDetailsById(connection, id);
+        if ("getById".equals(function) && orderId != null) {
+            try (Connection connection = connectionPool.getConnection()) {
+                OrderDTO orderDTO = orderDetailsBO.getOrderDetailsById(connection, orderId);
                 System.out.println(orderDTO);
-                Jsonb jsonb = JsonbBuilder.create();
-                String json = jsonb.toJson(orderDTO);
-                resp.getWriter().write(json);
-            } catch (JsonbException e) {
-                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
-            } catch (IOException e) {
-                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+                if (orderDTO != null) {
+                    Jsonb jsonb = JsonbBuilder.create();
+                    String json = jsonb.toJson(orderDTO);
+                    resp.setContentType("application/json");
+                    resp.getWriter().write(json);
+                } else {
+                    resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Order not found");
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
             }
+        } else {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid request parameters");
         }
     }
 
