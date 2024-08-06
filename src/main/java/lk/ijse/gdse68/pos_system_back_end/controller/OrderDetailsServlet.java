@@ -13,6 +13,7 @@ import lk.ijse.gdse68.pos_system_back_end.bo.custom.impl.OrderDetailsBOImpl;
 import lk.ijse.gdse68.pos_system_back_end.dto.OrderDTO;
 import lk.ijse.gdse68.pos_system_back_end.dto.OrderDetailsDTO;
 import lk.ijse.gdse68.pos_system_back_end.entity.OrderDetail;
+import lombok.SneakyThrows;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -66,6 +67,7 @@ public class OrderDetailsServlet extends HttpServlet {
             }
         }
     }
+
 
 
 }

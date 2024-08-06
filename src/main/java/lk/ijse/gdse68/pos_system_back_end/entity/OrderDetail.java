@@ -21,4 +21,8 @@ public class OrderDetail {
         this.unit_price = unit_price;
         this.qty = qty;
     }
+
+    public void setUnit_price(String unitPrice) {
+        this.unit_price=unit_price;
+    }
 }
