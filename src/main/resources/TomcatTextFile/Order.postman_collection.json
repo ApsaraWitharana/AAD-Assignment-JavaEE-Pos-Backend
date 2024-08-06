@@ -9,8 +9,63 @@
 		{
 			"name": "SaveOrder",
 			"request": {
-				"method": "GET",
-				"header": []
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"order_id\": \"ORD-011\",\r\n    \"date\": \"2024-08-05\",\r\n    \"cust_id\": \"C00-002\",\r\n    \"discount\": 10,\r\n    \"total\": 300,\r\n    \"order_list\": [\r\n        {\r\n            \"order_id\": \"ORD-011\",\r\n            \"item_code\": \"I00-008\",\r\n            \"qty\": 10,\r\n            \"unit_price\":2000\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/Pos_System/order?order_id=ORD-011&date=2024-08-05&cust_id=C00-002&discount=10&total=300&item_code=I00-008&unit_price=2000&qty=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Pos_System",
+						"order"
+					],
+					"query": [
+						{
+							"key": "order_id",
+							"value": "ORD-011"
+						},
+						{
+							"key": "date",
+							"value": "2024-08-05"
+						},
+						{
+							"key": "cust_id",
+							"value": "C00-002"
+						},
+						{
+							"key": "discount",
+							"value": "10"
+						},
+						{
+							"key": "total",
+							"value": "300"
+						},
+						{
+							"key": "item_code",
+							"value": "I00-008"
+						},
+						{
+							"key": "unit_price",
+							"value": "2000"
+						},
+						{
+							"key": "qty",
+							"value": "10"
+						}
+					]
+				}
 			},
 			"response": []
 		},
@@ -18,7 +73,29 @@
 			"name": "GetOrder",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/Pos_System/order?function=getById&order_id=ORD-011",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Pos_System",
+						"order"
+					],
+					"query": [
+						{
+							"key": "function",
+							"value": "getById"
+						},
+						{
+							"key": "order_id",
+							"value": "ORD-011"
+						}
+					]
+				}
 			},
 			"response": []
 		}

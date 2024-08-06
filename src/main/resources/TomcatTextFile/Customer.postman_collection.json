@@ -7,34 +7,165 @@
 	},
 	"item": [
 		{
-			"name": "GetCustomer",
-			"request": {
-				"method": "GET",
-				"header": []
-			},
-			"response": []
-		},
-		{
 			"name": "UpdateCustomer",
 			"request": {
-				"method": "GET",
-				"header": []
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"dusvi\",\r\n    \"address\":\"baddegama\",\r\n    \"salary\":\"20000\",\r\n    \"id\":\"C00-132\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/Pos_System/customer?name=dusvi&address=baddegama&salary=20000&id=C00-132",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Pos_System",
+						"customer"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "dusvi"
+						},
+						{
+							"key": "address",
+							"value": "baddegama"
+						},
+						{
+							"key": "salary",
+							"value": "200000"
+						},
+						{
+							"key": "id",
+							"value": "C00-132"
+						}
+					]
+				},
+				"description": "This API allow get to Customer Update collection"
 			},
 			"response": []
 		},
 		{
-			"name": "SaveCustomer",
+			"name": "GetCustomer",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/Pos_System/customer?function=getById&id=C00-132",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Pos_System",
+						"customer"
+					],
+					"query": [
+						{
+							"key": "function",
+							"value": "getById"
+						},
+						{
+							"key": "id",
+							"value": "C00-132"
+						}
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "DeleteCustomer",
 			"request": {
-				"method": "GET",
-				"header": []
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/Pos_System/customer?id=C00-005",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Pos_System",
+						"customer"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "C00-005"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SaveCustomer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \r\n    \"id\":\"C00-132\",\r\n    \"name\":\"Thathsara\",\r\n    \"address\":\"matara\",\r\n    \"salary\":\"10000\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/Pos_System/customer?id=C00-132&name=Thathsara&address=matara&salary=10000",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Pos_System",
+						"customer"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "C00-132"
+						},
+						{
+							"key": "name",
+							"value": "Thathsara"
+						},
+						{
+							"key": "address",
+							"value": "matara"
+						},
+						{
+							"key": "salary",
+							"value": "10000"
+						}
+					]
+				}
 			},
 			"response": []
 		}
