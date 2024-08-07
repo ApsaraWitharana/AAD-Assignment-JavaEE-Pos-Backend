@@ -1,0 +1,42 @@
+{
+	"info": {
+		"_postman_id": "415b53d0-3cf3-4d0a-88eb-f7362605e4c7",
+		"name": "OrderDetails",
+		"description": "This API alliow to get Order Details get Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "35385905"
+	},
+	"item": [
+		{
+			"name": "GetOrderDetails",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/Pos_System/orderDetails?function=getById&order_id=ORD-010",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Pos_System",
+						"orderDetails"
+					],
+					"query": [
+						{
+							"key": "function",
+							"value": "getById"
+						},
+						{
+							"key": "order_id",
+							"value": "ORD-010"
+						}
+					]
+				},
+				"description": "The endpoint retrieves order details by ID from the POS system.\n\nThe response for this request follows the JSON schema below:\n\n``` json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"cust_id\": {\n      \"type\": \"string\"\n    },\n    \"date\": {\n      \"type\": \"string\"\n    },\n    \"discount\": {\n      \"type\": \"number\"\n    },\n    \"order_id\": {\n      \"type\": \"string\"\n    },\n    \"order_list\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"item_code\": {\n            \"type\": \"string\"\n          },\n          \"qty\": {\n            \"type\": \"number\"\n          },\n          \"unit_price\": {\n            \"type\": \"number\"\n          }\n        }\n      }\n    },\n    \"total\": {\n      \"type\": \"number\"\n    }\n  }\n}\n\n ```\n\n### Request Body\n\nThis request does not include a request body.\n\n### Response Body\n\nThe response to the request is in JSON format with the following structure:\n\n``` json\n{\n    \"cust_id\": \"\",\n    \"date\": \"\",\n    \"discount\": 0,\n    \"order_id\": \"\",\n    \"order_list\": [\n        {\n            \"item_code\": \"\",\n            \"qty\": 0,\n            \"unit_price\": 0\n        }\n    ],\n    \"total\": 0\n}\n\n ```\n\nThe response includes order details such as customer ID, date, discount, order ID, order list with item code, quantity, and unit price, and the total amount."
+			},
+			"response": []
+		}
+	]
+}

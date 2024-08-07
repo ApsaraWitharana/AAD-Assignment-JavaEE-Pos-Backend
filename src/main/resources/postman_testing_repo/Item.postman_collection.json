@@ -1,0 +1,186 @@
+{
+	"info": {
+		"_postman_id": "e67cd403-bcb9-4eac-b879-8d9c4da108e8",
+		"name": "Item",
+		"description": "## This API allow get to Item Management Section",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "35385905"
+	},
+	"item": [
+		{
+			"name": "SaveItem",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"code\":\"I00-008\",\r\n    \"name\":\"rathukakulu\",\r\n    \"price\":\"2000.00\",\r\n    \"qty\":\"200\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/Pos_System/item?code=I00-008&name=rathukakulu&price=2000.00&qty=200",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Pos_System",
+						"item"
+					],
+					"query": [
+						{
+							"key": "code",
+							"value": "I00-008"
+						},
+						{
+							"key": "name",
+							"value": "rathukakulu"
+						},
+						{
+							"key": "price",
+							"value": "2000.00"
+						},
+						{
+							"key": "qty",
+							"value": "200"
+						}
+					]
+				},
+				"description": "This API allow get to Item Post collection"
+			},
+			"response": []
+		},
+		{
+			"name": "GetItem",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/Pos_System/item?function=getById&code=I00-004",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Pos_System",
+						"item"
+					],
+					"query": [
+						{
+							"key": "function",
+							"value": "getById"
+						},
+						{
+							"key": "code",
+							"value": "I00-004"
+						}
+					]
+				},
+				"description": "This API alliow to get Item Get Collection"
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateItem",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"suduKakulu\",\r\n    \"price\":2000,\r\n    \"qty\":100,\r\n    \"code\":\"I00-003\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/Pos_System/item?name=sudukakulu&price=2000&qty=100&code=I00-003",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Pos_System",
+						"item"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "sudukakulu"
+						},
+						{
+							"key": "price",
+							"value": "2000"
+						},
+						{
+							"key": "qty",
+							"value": "100"
+						},
+						{
+							"key": "code",
+							"value": "I00-003"
+						}
+					]
+				},
+				"description": "This API alliow to get Item Update Collection"
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteItem",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/Pos_System/item?code=I00-001",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Pos_System",
+						"item"
+					],
+					"query": [
+						{
+							"key": "code",
+							"value": "I00-001"
+						}
+					]
+				},
+				"description": "This API alliow to get Item Delete Collection"
+			},
+			"response": []
+		}
+	]
+}
