@@ -1,6 +1,11 @@
 <a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=600&size=50&pause=1000&center=true&vCenter=true&color=green&width=835&height=70&lines=POS+SYSTEM+BACKEND" alt="pos" /></a>
 
 # POS System Backend
+![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)
+![JavaEE](https://img.shields.io/badge/JavaEE-6DB33F?style=for-the-badge&logo=java&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)
+![Apache Tomcat](https://img.shields.io/badge/Apache%20Tomcat-F8DC75?style=for-the-badge&logo=apache-tomcat&logoColor=black)
 
 ## Project Description
 The POS System Backend is a RESTful API that supports the frontend operations of a Point of Sale system. This backend service manages customer, order, and inventory data, providing essential functionalities such as creating, reading, updating, and deleting records.
@@ -40,8 +45,8 @@ The POS System Backend is a RESTful API that supports the frontend operations of
 ### Steps
 1. **Clone the repository**
     ```bash
-    git clone https://github.com/yourusername/pos-system-backend.git
-    cd pos-system-backend
+    git clone https://github.com/ApsaraWitharana/AAD-Assignment-JavaEE-Pos-Backend.git
+  
     ```
 
 2. **Configure the database**
