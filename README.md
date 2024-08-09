@@ -43,11 +43,18 @@ The POS System Backend is a RESTful API that supports the frontend operations of
 - Apache Tomcat 10
 
 ### Steps
-1. **Clone the repository**
+1. **Clone the repository - Backend**
     ```bash
     git clone https://github.com/ApsaraWitharana/AAD-Assignment-JavaEE-Pos-Backend.git
   
     ```
+   **Clone the repository -Frontend**
+    ```bash
+   git clone https://github.com/ApsaraWitharana/AAD-Assignment-JavaEE-Pos-Frontend.git
+  
+    ```
+
+
 
 2. **Configure the database**
     - Create a MySQL database named `pos_system`
