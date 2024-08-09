@@ -27,7 +27,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 @WebServlet(name = "orders" , urlPatterns = "/order")
 public class OrderServlet extends HttpServlet {
 
-    OrderBO orderBO = (OrderBO) new OrderBOImpl();
+    OrderBO orderBO = BOFactory.getBoFactory().getBO(BOFactory.BoTypes.ORDER_BO);
     OrderDetailsBO orderDetailsBO = BOFactory.getBoFactory().getBO(BOFactory.BoTypes.ORDER_DETAILS_BO);
 
     DataSource connectionPool;
