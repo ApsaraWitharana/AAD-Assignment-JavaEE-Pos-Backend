@@ -1,0 +1,7 @@
+2024-08-13 16:22:04.757 [RMI TCP Connection(2)-127.0.0.1] INFO  l.i.g.p.entity.Customer - Hello method invoked
+2024-08-13 16:22:04.774 [RMI TCP Connection(2)-127.0.0.1] INFO  l.i.g.p.entity.Customer - connection initialized
+2024-08-13 16:24:54.877 [RMI TCP Connection(2)-127.0.0.1] INFO  l.i.g.p.entity.Customer - Hello method invoked
+2024-08-13 16:24:54.891 [RMI TCP Connection(2)-127.0.0.1] INFO  l.i.g.p.entity.Customer - connection initialized
+2024-08-13 16:25:49.247 [http-nio-8080-exec-6] INFO  l.i.g.p.entity.Customer - Customer Save Successfully!!
+2024-08-13 16:26:33.812 [http-nio-8080-exec-8] INFO  l.i.g.p.entity.Customer - Customer Update Successfully!!
+2024-08-13 16:26:48.167 [http-nio-8080-exec-1] INFO  l.i.g.p.entity.Customer - Customer Delete Successfully!!
