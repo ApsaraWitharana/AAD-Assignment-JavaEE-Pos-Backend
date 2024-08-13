@@ -1,0 +1,30 @@
+<configuration>
+
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <endcoder>
+            <!--            log eke date time -->
+            <pattern>
+                %d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n
+            </pattern>
+        </endcoder>
+        <!-- adala log msg ek dagann apit log ek print wenn one kohed kiyl-->
+
+    </appender>
+    <appender name="File" class="ch.qos.logback.core.FileAppender">
+        <file>C:\Users\sachi\Downloads\CNS-TEAM-WORK\pos_system_back_end\app.log
+            <!--            location printe wenn ona kohed kiyl-->
+
+        </file>
+        <append>true</append>
+        <endcoder>
+            <!--            log eke date time -->
+            <pattern>
+                %d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n
+            </pattern>
+        </endcoder>
+    </appender>
+    <root level="debug">
+        <appender-ref ref="Console"/>
+        <appender-ref ref="File"/>
+    </root>
+</configuration>

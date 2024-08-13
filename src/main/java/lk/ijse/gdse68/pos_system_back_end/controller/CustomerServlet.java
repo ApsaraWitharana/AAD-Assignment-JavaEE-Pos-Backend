@@ -13,7 +13,10 @@ import lk.ijse.gdse68.pos_system_back_end.bo.custom.CustomerBO;
 import lk.ijse.gdse68.pos_system_back_end.bo.custom.impl.CustomerBOImpl;
 import lk.ijse.gdse68.pos_system_back_end.dto.CustomerDTO;
 import lk.ijse.gdse68.pos_system_back_end.dto.ItemDTO;
+import lk.ijse.gdse68.pos_system_back_end.entity.Customer;
 import lombok.SneakyThrows;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -25,20 +28,26 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
+import static com.mysql.cj.conf.PropertyKey.logger;
+
 @WebServlet(name = "customer",urlPatterns = "/customer",loadOnStartup = 3)
 public class CustomerServlet extends HttpServlet {
 
     CustomerBO customerBO = BOFactory.getBoFactory().getBO(BOFactory.BoTypes.CUSTOMER_BO);
     DataSource connectionPool;
+    static Logger logger =  LoggerFactory.getLogger(Customer.class);
+
 
     @Override
     public void init() throws ServletException {
+        logger.info("Hello method invoked");
         try {
             var ctx = new InitialContext(); //get connection to connection pool
             Context envContext = (Context) ctx.lookup("java:/comp/env");
             DataSource dataSource = (DataSource) envContext.lookup("jdbc/pos_system_new");
 //            DataSource pool = (DataSource) ctx.lookup("java/comp/env/jdbc/pos_system"); // cast and create datasource and get lookup set url path
             this.connectionPool = dataSource;
+            logger.info("connection initialized",Customer.class);
         } catch (NamingException e) {
             throw new ServletException("Cannot find JNDI resource", e);
 //            e.printStackTrace();
@@ -70,14 +79,17 @@ public class CustomerServlet extends HttpServlet {
 
             boolean isSaved = customerBO.saveCustomer(connection, customerDTO);
             if (isSaved) {
+                logger.info("Customer Save Successfully!!");
                 resp.setStatus(HttpServletResponse.SC_CREATED);
                 resp.getWriter().write("Customer Save Successfully");
             } else {
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "failed to save customer");
             }
         } catch (SQLIntegrityConstraintViolationException e) {
+
             resp.sendError(HttpServletResponse.SC_CONFLICT, "Duplicate values. Please check again");
         } catch (Exception e) {
+//            logger.info("Fail to Customer Save!!");
             e.printStackTrace();
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing the request.");
         }
@@ -181,6 +193,7 @@ public class CustomerServlet extends HttpServlet {
         try (Connection connection = connectionPool.getConnection()){
             boolean isDeleted = customerBO.deleteCustomer(connection,id);
             if (isDeleted){
+                logger.info("Customer Delete Successfully!!");
                 resp.setStatus(HttpServletResponse.SC_CREATED);
                 resp.getWriter().write("Customer Delete Successfully");
             }else{
@@ -207,7 +220,7 @@ public class CustomerServlet extends HttpServlet {
             } else if (customerDTO.getName() == null || !customerDTO.getName().matches("^[A-Za-z ]{4,}$")) {
                 resp.getWriter().write("Name is empty or invalid! ");
                 return;
-            } else if (customerDTO.getAddress() == null || !customerDTO.getAddress().matches("^[A-Za-z0-9., -]{8,}$")) {
+            } else if (customerDTO.getAddress() == null || !customerDTO.getAddress().matches("^[A-Za-z0-9., -]{5,}$")) {
                 resp.getWriter().write("Address is empty or invalid");
                 return;
             } else if (customerDTO.getSalary() <= 0) {
@@ -217,6 +230,7 @@ public class CustomerServlet extends HttpServlet {
             }
             boolean isUpdated = customerBO.updateCustomer(connection, customerDTO);
             if (isUpdated) {
+                logger.info("Customer Update Successfully!!");
                 resp.setStatus(HttpServletResponse.SC_CREATED);
                 resp.getWriter().write("Customer Update Successfully");
 
